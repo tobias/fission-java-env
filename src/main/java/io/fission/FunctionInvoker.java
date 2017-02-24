@@ -35,6 +35,7 @@ public class FunctionInvoker implements Handler<RoutingContext> {
 
     @Override
     public void handle(RoutingContext ctx) {
+        final long start = System.currentTimeMillis();
         final Context fCtx = Context.from(ctx);
         final BodyReader reader = legalInputTypes.get(this.inputType);
         final Object input;
@@ -51,6 +52,7 @@ public class FunctionInvoker implements Handler<RoutingContext> {
         } catch (Exception e) {
             fCtx.fail(e);
         }
+        System.out.printf("user code called in %d ms\n", System.currentTimeMillis() - start);
     }
 
     boolean hasVoidInput() {
